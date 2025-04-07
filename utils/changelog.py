@@ -1,8 +1,7 @@
-import os
 import filecmp
+import os
 
 def generate_changelog(prev_dir, new_dir):
-    """이전/현재 디렉터리 비교하여 changelog 및 변경 이미지 목록 생성"""
     changes = []
     changed_images = []
 
