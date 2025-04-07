@@ -30,4 +30,4 @@ if __name__ == "__main__":
     changelog = generate_changelog()
     send_discord_changelog(changelog)
 
-# 테스트용 주석입니다.
+print("[*] 테스트용 푸시입니다.")
