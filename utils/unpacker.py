@@ -1,7 +1,15 @@
-import filecmp
 import os
+import subprocess
+import filecmp
+
+def unpack_apk(apk_path: str, output_dir: str):
+    """APK 파일을 7z로 언팩"""
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    subprocess.run(["7z", "x", apk_path, f"-o{output_dir}"], check=True)
 
 def generate_changelog(prev_dir, new_dir):
+    """이전/현재 디렉터리 비교하여 changelog 및 변경 이미지 목록 생성"""
     changes = []
     changed_images = []
 
@@ -21,14 +29,3 @@ def generate_changelog(prev_dir, new_dir):
                     changed_images.append(new_file)
 
     return "\n".join(changes), changed_images
-import os
-import subprocess
-
-def unpack_apk(apk_path: str, output_dir: str):
-    """
-    gszabi 스타일로 APK를 언팩해서 output_dir에 저장
-    """
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    subprocess.run(["7z", "x", apk_path, f"-o{output_dir}"], check=True)
