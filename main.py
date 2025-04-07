@@ -1,13 +1,13 @@
 import os
 import requests
-import zipfile
 from datetime import datetime
 from utils.unpacker import unpack_apk
 from utils.changelog import generate_changelog
-from utils.discord import send_text_chunks_to_discord, send_images_to_discord
+# Discord 관련 모듈은 필요 시 추가
+# from utils.discord import send_text_chunks_to_discord, send_images_to_discord
 
 APK_URL = "https://wtmobile.com/apk"
-WEBHOOK_URL = "https://discord.com/api/webhooks/1358669581388087470/Q3JgZ7kM-0tDQn4UOU7h9UC8y2Sb_lXNBujY8OjHz1tN04_zXwPDR1pB0VE3PjXL-IE0"
+WEBHOOK_URL = "YOUR_WEBHOOK_URL"
 
 def download_apk():
     print("[*] APK 다운로드 중...")
@@ -29,9 +29,12 @@ def run_pipeline():
     if os.path.exists("previous_version"):
         changelog, changed_images = generate_changelog("previous_version", unpack_dir)
         if changelog:
-            send_text_chunks_to_discord(changelog, WEBHOOK_URL, version)
-            if changed_images:
-                send_images_to_discord(changed_images, WEBHOOK_URL, version)
+            print("변경 로그:")
+            print(changelog)
+            # send_text_chunks_to_discord(changelog, WEBHOOK_URL, version)
+            # send_images_to_discord(changed_images, WEBHOOK_URL, version)
+        else:
+            print("변경 사항 없음.")
     else:
         print("[!] 최초 실행으로 이전 버전 없음.")
 
