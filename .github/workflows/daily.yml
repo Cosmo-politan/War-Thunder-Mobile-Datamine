@@ -1,0 +1,27 @@
+name: Daily APK Check & Changelog
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # 매일 12:00 KST
+  workflow_dispatch:
+
+jobs:
+  check-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y p7zip-full
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+
+      - name: Run pipeline
+        run: python main.py
