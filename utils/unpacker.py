@@ -1,3 +1,5 @@
+print("[DEBUG] unpacker.py가 실행됨!")
+
 import os
 import subprocess
 
