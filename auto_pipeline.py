@@ -20,8 +20,8 @@ def send_discord_changelog(changelog):
 
 def generate_changelog():
     # 간단한 changelog 예시
-    return "- 신규 장비 발견
-- 차량 성능 변경"
+    return """- 신규 장비 발견
+- 차량 성능 변경"""
 
 if __name__ == "__main__":
     download_apk()
