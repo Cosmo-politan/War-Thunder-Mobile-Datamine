@@ -15,8 +15,7 @@ def unpack_apk():
     subprocess.run(["unzip", "-o", "wtmobile_latest.apk", "-d", "unpacked"], check=True)
 
 def send_discord_changelog(changelog):
-    data = {"content": f"[자동 Changelog]
-{changelog}"}
+    data = {"content": f"[자동 Changelog] 변경 사항입니다."}
     requests.post(DISCORD_WEBHOOK, json=data)
 
 def generate_changelog():
