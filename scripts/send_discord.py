@@ -19,13 +19,10 @@ def send_to_discord(text):
             "content": f"**[자동 Changelog - Part {idx + 1}/{len(parts)}]**\n```diff\n{part}\n```"
         }
         response = requests.post(DISCORD_WEBHOOK, json=data)
-        if response.status_code in [200, 204]:
-            print(f"[+] Part {idx + 1}/{len(parts)} sent.")
-        else:
-            print(f"[!] Failed to send part {idx + 1}: {response.status_code}")
-            print("[!] Error:", response.text)
-
-
+        
+        print(f"[*] Sent part {idx+1} - status: {response.status_code}")
+        print(f"[*] Discord response text: {response.text}")
+        
 def send_images_to_discord(image_paths):
     print(f"[*] Sending {len(image_paths)} image(s) to Discord...")
 
