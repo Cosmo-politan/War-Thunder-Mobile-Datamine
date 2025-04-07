@@ -13,7 +13,11 @@ def send_to_discord(text):
         data = {
             "content": f"**[자동 Changelog - Part {idx + 1}/{len(parts)}]**\n```diff\n{part}\n```"
         }
-        response = requests.post(DISCORD_WEBHOOK, json=data)
+        from send_discord import send_to_discord
+
+...
+
+send_to_discord(changelog)
         print(f"[*] Part {idx + 1}/{len(parts)} sent with status: {response.status_code}")
         if response.status_code not in [200, 204]:
             print("[!] Failed to send this part:", response.text)
