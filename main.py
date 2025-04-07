@@ -1,4 +1,10 @@
 print("[DEBUG] main.py에서 import 시도 중...")
+# main.py 상단에 직접 붙여넣기
+def unpack_apk(apk_path: str, output_dir: str):
+    print("[DEBUG] unpack_apk 함수 호출됨!")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    subprocess.run(["7z", "x", apk_path, f"-o{output_dir}"], check=True)
 
 import os
 import requests
