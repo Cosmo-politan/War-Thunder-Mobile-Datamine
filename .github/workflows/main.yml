@@ -1,22 +1,40 @@
-name: Auto Datamine Pipeline
+name: Auto APK Diff
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
 
 jobs:
-  run-script:
+  apk_check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-      - name: Install requirements
-        run: pip install requests beautifulsoup4
-      - name: Run Script
-        run: python auto_pipeline.py
-        
-# 테스트용 주석입니다.
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: pip install requests
+
+    - name: Download APK
+      run: python scripts/download_apk.py
+
+    - name: Unpack APK
+      run: python scripts/unpack_apk.py wtmobile_latest.apk
+
+    - name: Compare APKs
+      run: python scripts/compare_apk.py
+
+    - name: Send Changelog to Discord
+      if: success()
+      run: python scripts/generate_changelog.py
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: changelog
+        path: changelog.txt
