@@ -21,3 +21,14 @@ def generate_changelog(prev_dir, new_dir):
                     changed_images.append(new_file)
 
     return "\n".join(changes), changed_images
+import os
+import subprocess
+
+def unpack_apk(apk_path: str, output_dir: str):
+    """
+    gszabi 스타일로 APK를 언팩해서 output_dir에 저장
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    subprocess.run(["7z", "x", apk_path, f"-o{output_dir}"], check=True)
