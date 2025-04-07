@@ -1,9 +1,7 @@
-import os
 import requests
 
 DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1358669581388087470/Q3JgZ7kM-0tDQn4UOU7h9UC8y2Sb_lXNBujY8OjHz1tN04_zXwPDR1pB0VE3PjXL-IE0"
-MAX_LENGTH = 190
-
+MAX_LENGTH = 1900
 
 def send_to_discord(text):
     print("[*] Sending changelog to Discord...")
@@ -15,29 +13,31 @@ def send_to_discord(text):
     parts = [text[i:i + MAX_LENGTH] for i in range(0, len(text), MAX_LENGTH)]
 
     for idx, part in enumerate(parts):
-        data = {
-            "content": f"**[자동 Changelog - Part {idx + 1}/{len(parts)}]**\n```diff\n{part}\n```"
-        }
-        response = requests.post(DISCORD_WEBHOOK, json=data)
-        
-        print(f"[*] Sent part {idx+1} - status: {response.status_code}")
-        print(f"[*] Discord response text: {response.text}")
-        
-def send_images_to_discord(image_paths):
-    print(f"[*] Sending {len(image_paths)} image(s) to Discord...")
+        try:
+            data = {
+                "content": f"**[자동 Changelog - Part {idx + 1}/{len(parts)}]**\n```\n{part}\n```"
+            }
+            print(f"[*] Sending part {idx+1}/{len(parts)}...")
+            response = requests.post(DISCORD_WEBHOOK, json=data)
 
-    for img_path in image_paths:
-        if not os.path.exists(img_path):
-            print(f"[!] Skipping missing file: {img_path}")
-            continue
+            print(f"[+] Response Code: {response.status_code}")
+            print(f"[+] Response Text: {response.text}")
 
-        with open(img_path, "rb") as f:
-            files = {"file": (os.path.basename(img_path), f)}
-            data = {"content": f"변경된 이미지 파일: `{img_path}`"}
-            response = requests.post(DISCORD_WEBHOOK, data=data, files=files)
+            if response.status_code not in [200, 204]:
+                print(f"[!] Failed to send part {idx+1}: {response.status_code} - {response.text}")
+        except Exception as e:
+            print(f"[!] Exception occurred while sending to Discord: {e}")
 
-        if response.status_code in [200, 204]:
-            print(f"[+] Image sent: {img_path}")
+if __name__ == "__main__":
+    try:
+        with open("changelog.txt", "r", encoding="utf-8") as f:
+            changelog = f.read().strip()
+
+        if not changelog:
+            print("[*] changelog.txt is empty. No message to send.")
         else:
-            print(f"[!] Failed to send image {img_path}: {response.status_code}")
-            print("[!] Error:", response.text)
+            send_to_discord(changelog)
+    except FileNotFoundError:
+        print("[!] changelog.txt not found.")
+    except Exception as e:
+        print(f"[!] Unexpected error: {e}")
