@@ -29,3 +29,5 @@ if __name__ == "__main__":
     unpack_apk()
     changelog = generate_changelog()
     send_discord_changelog(changelog)
+
+# 테스트용 주석입니다.
