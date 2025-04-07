@@ -1,5 +1,4 @@
-import os
-print("[DEBUG] 현재 작업 디렉토리:", os.getcwd())
+print("[DEBUG] main.py에서 import 시도 중...")
 
 import os
 import requests
