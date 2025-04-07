@@ -1,4 +1,7 @@
 import os
+print("[DEBUG] 현재 작업 디렉토리:", os.getcwd())
+
+import os
 import requests
 from datetime import datetime
 from utils.unpacker import unpack_apk
