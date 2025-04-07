@@ -2,8 +2,8 @@ name: Auto Datamine Pipeline
 
 on:
   push:
-    paths:
-      - 'auto_pipeline.py'
+    branches:
+      - main
 
 jobs:
   run-script:
