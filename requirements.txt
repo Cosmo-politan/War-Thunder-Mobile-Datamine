@@ -1,3 +1,6 @@
 requests
-Pillow
 beautifulsoup4
+Pillow
+discord-webhook
+tqdm
+lxml
